@@ -41,18 +41,20 @@ class MobileScreenLayout extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
               tabs: [
-                Tab(
-                  text: "Chats",
-                ),
-                Tab(
-                  text: "Status",
-                ),
-                Tab(
-                  text: "Calls",
-                ),
+                Tab(text: "Chats"),
+                Tab(text: "Status"),
+                Tab(text: "Calls"),
               ]),
         ),
         body: const ContactsList(),
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          backgroundColor: tabColor,
+          child: const Icon(
+            Icons.comment,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }

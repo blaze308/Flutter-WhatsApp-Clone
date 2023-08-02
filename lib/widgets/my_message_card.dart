@@ -25,7 +25,7 @@ class MyMessageCard extends StatelessWidget {
                     left: 10, right: 30, top: 5, bottom: 20),
                 child: Text(
                   message,
-                  style: TextStyle(fontSize: 16),
+                  style: const TextStyle(fontSize: 16),
                 ),
               ),
               Positioned(

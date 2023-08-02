@@ -31,11 +31,11 @@ class WebChatAppBar extends StatelessWidget {
             children: [
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.search, color: Colors.grey),
+                icon: const Icon(Icons.search, color: Colors.grey),
               ),
               IconButton(
                 onPressed: () {},
-                icon: Icon(Icons.more_vert, color: Colors.grey),
+                icon: const Icon(Icons.more_vert, color: Colors.grey),
               ),
             ],
           )
