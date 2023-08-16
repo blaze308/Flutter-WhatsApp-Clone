@@ -16,6 +16,7 @@ class LoginScreen extends ConsumerStatefulWidget {
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
   final phoneController = TextEditingController();
+  bool isLoading = false;
   Country? country;
 
   @override
@@ -37,10 +38,23 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   void sendPhoneNumber() {
     String phoneNumber = phoneController.text.trim();
     if (country != null && phoneNumber.isNotEmpty) {
-      ref
-          .read(authControllerProvider)
-          .signInWithPhone(context, "+${country!.phoneCode}$phoneNumber");
+      try {
+        ref
+            .read(authControllerProvider)
+            .signInWithPhone(context, "+${country!.phoneCode}$phoneNumber");
+
+        setState(() {
+          isLoading = true;
+        });
+      } catch (e) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     } else {
+      setState(() {
+        isLoading = false;
+      });
       showSnackBar(context: context, content: "fill out all fields");
     }
   }
@@ -76,6 +90,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                 SizedBox(
                   width: size.width * 0.7,
                   child: TextField(
+                    keyboardType: TextInputType.number,
                     controller: phoneController,
                     decoration: const InputDecoration(hintText: "phone number"),
                   ),
@@ -83,14 +98,31 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               ],
             ),
             const Spacer(),
-            SizedBox(
-              width: 90,
-              height: 40,
-              child: CustomButton(
-                text: "NEXT",
-                onPressed: sendPhoneNumber,
-              ),
-            )
+            isLoading
+                ? SizedBox(
+                    width: 90,
+                    height: 40,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        showSnackBar(context: context, content: "Please wait ");
+                      },
+                      style: ElevatedButton.styleFrom(
+                          backgroundColor:
+                              const Color.fromARGB(255, 85, 81, 81),
+                          minimumSize: const Size(double.infinity, 50)),
+                      child: const Text(
+                        "NEXT",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    ))
+                : SizedBox(
+                    width: 90,
+                    height: 40,
+                    child: CustomButton(
+                      text: "NEXT",
+                      onPressed: sendPhoneNumber,
+                    ),
+                  )
           ],
         ),
       ),

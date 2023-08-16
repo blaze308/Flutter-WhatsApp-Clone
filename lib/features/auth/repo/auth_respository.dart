@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -23,6 +25,17 @@ class AuthRepository {
   final FirebaseFirestore firestore;
 
   AuthRepository({required this.auth, required this.firestore});
+
+  Future<UserModel?> getCurrentUserData() async {
+    var userData =
+        await firestore.collection("users").doc(auth.currentUser?.uid).get();
+
+    UserModel? user;
+    if (userData.data() != null) {
+      user = UserModel.fromMap(userData.data()!);
+    }
+    return user;
+  }
 
   void signInWithPhone(BuildContext context, String phoneNumber) async {
     try {
@@ -82,8 +95,13 @@ class AuthRepository {
             .storeFiletoFirebse("profilePic/$uid", profilePic);
       }
 
-      var user =
-          UserModel(name, uid, photoUrl, true, auth.currentUser!.uid, []);
+      var user = UserModel(
+          name: name,
+          uid: uid,
+          profilePic: photoUrl,
+          isOnline: true,
+          phoneNumber: auth.currentUser!.uid,
+          groupId: []);
 
       await firestore.collection("users").doc(uid).set(user.toMap());
       Navigator.pushAndRemoveUntil(

@@ -17,24 +17,25 @@ class UserInformtionScreen extends ConsumerStatefulWidget {
 class _UserInformtionScreenState extends ConsumerState<UserInformtionScreen> {
   final TextEditingController nameController = TextEditingController();
   File? image;
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     String url =
         "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png";
 
-    @override
-    void dispose() {
-      super.dispose();
-      nameController.dispose();
-    }
-
     void selectImage() async {
       image = await pickImageFromGallery(context);
       setState(() {});
     }
 
-    void storeUserData() async {
+    void storeUserData() {
       String name = nameController.text.trim();
 
       if (name.isNotEmpty) {
