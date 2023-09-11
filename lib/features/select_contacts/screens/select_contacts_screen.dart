@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_contacts/flutter_contacts.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -37,7 +38,9 @@ class SelectContactsScreen extends ConsumerWidget {
                     return Padding(
                       padding: const EdgeInsets.only(bottom: 8.0),
                       child: InkWell(
-                        onTap: () => selectContact(ref, contact, context),
+                        onTap: () {
+                          selectContact(ref, contact, context);
+                        },
                         child: ListTile(
                           title: Text(
                             contact.displayName,

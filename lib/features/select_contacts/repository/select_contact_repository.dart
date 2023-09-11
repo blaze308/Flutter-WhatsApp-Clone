@@ -28,13 +28,32 @@ class SelectContactRepository {
     } catch (e) {
       debugPrint(e.toString());
     }
+
     return contacts;
   }
+
+  // Future<List<Contact>> getUsers() async {
+  //   List<Contact> users = [];
+
+  //   try {
+  //     List<Contact> contacts = await getContacts();
+
+  //     for (var contact in contacts) {
+  //       print(contact.phones[0].number);
+  //     }
+  //   } catch (e) {
+  //     debugPrint(e.toString());
+  //   }
+
+  //   return users;
+  // }
 
   void selectContact(Contact selectedContact, BuildContext context) async {
     try {
       var userCollection = await firestore.collection("users").get();
       bool isFound = false;
+
+      // print(selectedContact);
 
       for (var document in userCollection.docs) {
         var userData = UserModel.fromMap(document.data());
@@ -52,7 +71,7 @@ class SelectContactRepository {
         if (selectedPhoneNum == userData.phoneNumber ||
             ghNum == userData.phoneNumber) {
           isFound = true;
-          Navigator.pushNamed(context, MobileChatScreen.routeNme, arguments: {
+          Navigator.pushNamed(context, MobileChatScreen.routeName, arguments: {
             "name": userData.name,
             "uid": userData.uid,
           });

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:intl/intl.dart';
 import 'package:whatsapp_clone/colors.dart';
-import 'package:whatsapp_clone/features/chat/controller/chat_contoller.dart';
-import 'package:whatsapp_clone/info.dart';
+import 'package:whatsapp_clone/common/widgets/loader.dart';
+import 'package:whatsapp_clone/features/chat/controller/chat_controller.dart';
 import 'package:whatsapp_clone/features/chat/screens/mobile_chat_screen.dart';
 import 'package:whatsapp_clone/models/chat_contact.dart';
 
@@ -17,23 +17,23 @@ class ContactsList extends ConsumerWidget {
       child: StreamBuilder<List<ChatContact>>(
           stream: ref.watch(chatControllerProvider).chatContacts(),
           builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Loader();
+            }
             return ListView.builder(
               shrinkWrap: true,
               itemCount: snapshot.data!.length,
               itemBuilder: (context, index) {
                 var chatContactData = snapshot.data![index];
+
                 return Column(
                   children: [
                     InkWell(
-                      onTap: () {
-                        Navigator.of(context).push(
-                          MaterialPageRoute(
-                              builder: (context) => MobileChatScreen(
-                                    name: "Jai",
-                                    uid: "",
-                                  )),
-                        );
-                      },
+                      onTap: () => Navigator.pushNamed(
+                          context, MobileChatScreen.routeName, arguments: {
+                        "name": chatContactData.name,
+                        "uid": chatContactData.contactId
+                      }),
                       child: Padding(
                         padding: const EdgeInsets.only(bottom: 8),
                         child: ListTile(
@@ -49,12 +49,13 @@ class ContactsList extends ConsumerWidget {
                             ),
                           ),
                           leading: CircleAvatar(
-                            backgroundImage:
-                                NetworkImage(chatContactData.profilePic),
+                            backgroundImage: NetworkImage(
+                              chatContactData.profilePic,
+                            ),
                             radius: 30,
                           ),
                           trailing: Text(
-                            DateFormat.Hm().format(chatContactData.timeSent),
+                            DateFormat.jm().format(chatContactData.timeSent),
                             style: const TextStyle(
                                 fontSize: 13, color: Colors.grey),
                           ),
