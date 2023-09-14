@@ -29,7 +29,7 @@ class _ContactsPageState extends State<ContactsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("data"),
+        title: const Text("data"),
       ),
       body: ListView.builder(
         itemCount: contacts!.length,

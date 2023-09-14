@@ -27,14 +27,14 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
   void pickCountry() {
     showCountryPicker(
         context: context,
-        onSelect: (Country selectCountry) {
+        onSelect: (Country _country) {
           setState(() {
-            country = selectCountry;
+            country = _country;
 
-            if (selectCountry.phoneCode == "233") {
-              selectCountry.phoneCode.replaceAll("233", "0");
+            if (_country.phoneCode == "233") {
+              _country.phoneCode.replaceAll("233", "0");
             }
-            print(selectCountry.phoneCode);
+            print(_country.phoneCode);
           });
         });
   }

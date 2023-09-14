@@ -41,9 +41,9 @@ dependencies:
   firebase_storage: ^11.2.5
   country_picker: ^2.0.20
   flutter_riverpod: ^2.3.6
-  
   flutter_contacts: ^1.1.7+1
-  uuid: ^4.0.0
+  flutter_sound: ^9.2.13
+  uuid: ^3.0.1
   intl: ^0.18.1
   cached_network_image: ^3.2.3
   cached_video_player: ^2.0.4
@@ -51,6 +51,9 @@ dependencies:
   enough_giphy_flutter: ^0.4.1
   image_picker: ^1.0.4
   path_provider: ^2.1.1
+  permission_handler: ^9.2.0
+  audioplayers: ^5.1.0
+  swipe_to: ^1.0.2
 
 dev_dependencies:
   flutter_test:

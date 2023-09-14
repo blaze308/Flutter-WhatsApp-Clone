@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_clone/common/enums/message_enum.dart';
+import 'package:whatsapp_clone/common/providers/messages_reply_provider.dart';
 import 'package:whatsapp_clone/features/auth/controller/auth_controller.dart';
 import 'package:whatsapp_clone/features/chat/repositories/chat_repository.dart';
 import 'package:whatsapp_clone/models/chat_contact.dart';
@@ -37,6 +38,7 @@ class ChatController {
     String text,
     String receiverUserId,
   ) {
+    final messageReply = ref.read(messageReplyProvider);
     ref
         .read(userDataAuthProvider)
         .whenData((value) => chatRepository.sendTextMessage(
@@ -44,6 +46,7 @@ class ChatController {
               text: text,
               receiverUserId: receiverUserId,
               senderUser: value!,
+              messageReply: messageReply,
             ));
   }
 
@@ -53,6 +56,7 @@ class ChatController {
     String receiverUserId,
     MessageEnum messageEnum,
   ) {
+    final messageReply = ref.read(messageReplyProvider);
     ref
         .read(userDataAuthProvider)
         .whenData((value) => chatRepository.sendFileMessage(
@@ -62,6 +66,7 @@ class ChatController {
               senderUserData: value!,
               ref: ref,
               messageEnum: messageEnum,
+              messageReply: messageReply,
             ));
   }
 
@@ -73,7 +78,7 @@ class ChatController {
     int gifUrlPrtIndex = gifUrl.lastIndexOf("-") + 1;
     String gifUrlPart = gifUrl.substring(gifUrlPrtIndex);
     String newGifUrl = "https://i.giphy.com/media/$gifUrlPart/200.gif";
-
+    final messageReply = ref.read(messageReplyProvider);
     ref
         .read(userDataAuthProvider)
         .whenData((value) => chatRepository.sendGIFMessage(
@@ -81,6 +86,7 @@ class ChatController {
               gifUrl: newGifUrl,
               receiverUserId: receiverUserId,
               senderUser: value!,
+              messageReply: messageReply,
             ));
   }
 }
