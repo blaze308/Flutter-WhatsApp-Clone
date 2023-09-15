@@ -17,27 +17,29 @@ class MessageReplyPreview extends ConsumerWidget {
     return Container(
       width: 350,
       padding: const EdgeInsets.all(8),
-      child: Column(children: [
-        Row(
-          children: [
-            Expanded(
-              child: Text(
-                messageReply!.isMe ? "Me" : "Opposite",
-                style: const TextStyle(fontWeight: FontWeight.bold),
+      child: Column(
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  messageReply!.isMe ? "Me" : "Opposite",
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
               ),
-            ),
-            GestureDetector(
-              child: const Icon(
-                Icons.close,
-                size: 16,
+              GestureDetector(
+                child: const Icon(
+                  Icons.close,
+                  size: 16,
+                ),
+                onTap: () => cancelReply(ref),
               ),
-              onTap: () => cancelReply(ref),
-            ),
-            const SizedBox(height: 8),
-            Text(messageReply.message),
-          ],
-        )
-      ]),
+              const SizedBox(height: 8),
+              Text(messageReply.message),
+            ],
+          ),
+        ],
+      ),
     );
   }
 }
