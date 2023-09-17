@@ -1,7 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:swipe_to/swipe_to.dart';
-
 import 'package:whatsapp_clone/colors.dart';
 import 'package:whatsapp_clone/common/enums/message_enum.dart';
 import 'package:whatsapp_clone/features/chat/widgets/display_text_image_gif.dart';
@@ -14,6 +13,7 @@ class MyMessageCard extends StatelessWidget {
   final String repliedText;
   final String username;
   final MessageEnum repliedMessageType;
+  final bool isSeen;
 
   const MyMessageCard({
     Key? key,
@@ -24,6 +24,7 @@ class MyMessageCard extends StatelessWidget {
     required this.repliedText,
     required this.username,
     required this.repliedMessageType,
+    required this.isSeen,
   }) : super(key: key);
 
   @override
@@ -97,8 +98,11 @@ class MyMessageCard extends StatelessWidget {
                               fontSize: 8, color: Colors.white60),
                         ),
                         const SizedBox(width: 5),
-                        const Icon(Icons.done_all,
-                            size: 20, color: Colors.white60),
+                        Icon(
+                          isSeen ? Icons.done_all : Icons.done,
+                          size: 20,
+                          color: isSeen ? Colors.blue : Colors.white60,
+                        ),
                       ],
                     ))
               ],

@@ -62,30 +62,39 @@ class _ChatListState extends ConsumerState<ChatList> {
               final messageData = snapshot.data![index];
               var timeSent = DateFormat.jm().format(messageData.timeSent);
 
+              if (!messageData.isSeen &&
+                  messageData.receiverId ==
+                      FirebaseAuth.instance.currentUser!.uid) {
+                ref.read(chatControllerProvider).setChatMessageSeen(
+                      context,
+                      widget.receiverId,
+                      messageData.messageId,
+                    );
+              }
+
               if (messageData.senderId ==
                   FirebaseAuth.instance.currentUser!.uid) {
                 return MyMessageCard(
-                  type: messageData.type,
-                  message: messageData.text,
-                  date: timeSent,
-                  repliedText: messageData.repliedMessage,
-                  username: messageData.repliedTo,
-                  repliedMessageType: messageData.repliedMessageType,
-                  onLeftSwipe: () =>
-                      onMessageSwipe(messageData.text, true, messageData.type),
-                );
+                    type: messageData.type,
+                    message: messageData.text,
+                    date: timeSent,
+                    repliedText: messageData.repliedMessage,
+                    username: messageData.repliedTo,
+                    repliedMessageType: messageData.repliedMessageType,
+                    onLeftSwipe: () => onMessageSwipe(
+                        messageData.text, true, messageData.type),
+                    isSeen: messageData.isSeen);
               }
               return SenderMessageCard(
                 type: messageData.type,
                 message: messageData.text,
                 date: timeSent,
                 repliedText: messageData.repliedMessage,
-                  username: messageData.repliedTo,
-                  repliedMessageType: messageData.repliedMessageType,
-                   onRightSwipe: () =>
-                      onMessageSwipe(messageData.text, false, messageData.type),
-                );
-              
+                username: messageData.repliedTo,
+                repliedMessageType: messageData.repliedMessageType,
+                onRightSwipe: () =>
+                    onMessageSwipe(messageData.text, false, messageData.type),
+              );
             },
           );
         });

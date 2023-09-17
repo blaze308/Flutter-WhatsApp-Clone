@@ -48,6 +48,7 @@ class ChatController {
               senderUser: value!,
               messageReply: messageReply,
             ));
+    ref.read(messageReplyProvider.notifier).update((state) => null);
   }
 
   void sendFileMessage(
@@ -68,6 +69,7 @@ class ChatController {
               messageEnum: messageEnum,
               messageReply: messageReply,
             ));
+    ref.read(messageReplyProvider.notifier).update((state) => null);
   }
 
   void sendGIFMessage(
@@ -88,5 +90,11 @@ class ChatController {
               senderUser: value!,
               messageReply: messageReply,
             ));
+    ref.read(messageReplyProvider.notifier).update((state) => null);
+  }
+
+  void setChatMessageSeen(
+      BuildContext context, String receiverUserId, String messageId) {
+    chatRepository.setChatMessageSeen(context, receiverUserId, messageId);
   }
 }
